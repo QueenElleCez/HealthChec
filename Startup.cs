@@ -19,6 +19,7 @@ namespace HealthCheck
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
+
         {
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -26,7 +27,6 @@ namespace HealthCheck
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
             services.AddHealthChecks()
                 .AddCheck("ICMP_01", new ICMPHealthCheck("www.ryadel.com", 100))
                 .AddCheck("ICMP_02", new ICMPHealthCheck("www.google.com", 100))
@@ -47,6 +47,7 @@ namespace HealthCheck
                 app.UseHsts();
             }
 
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions()
             {
@@ -70,13 +71,14 @@ namespace HealthCheck
 
             app.UseRouting();
 
-            app.UseHealthChecks("/hc");
+
+            app.UseHealthChecks("/hc", new CustomHealthCheckOptions());
+
+
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(name: "default", pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
