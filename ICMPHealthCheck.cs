@@ -23,8 +23,9 @@ namespace HealthCheck
         {
             try
             {
-                using var ping = new Ping();
-                var reply = await ping.SendPingAsync(Host);
+                using var ping = new Ping()
+
+                    var reply = await ping.SendPingAsync(Host);
 
                 switch (reply.Status)
                 {
@@ -43,12 +44,11 @@ namespace HealthCheck
             catch (Exception e)
             {
                 var err = String.Format(
-                    "ICMP to {0} failed: {1}",
-                    Host,
-                    e.Message);
+                    "ICMP to {0} failed: {1}", Host, e.Message);
                 return HealthCheckResult.Unhealthy(err);
             }
         }
 
 
     }
+}
